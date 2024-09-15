@@ -39,8 +39,6 @@ $result = $conn->query($sql);
 ?>
 <html>
 <title>DoDS Stats</title>
-<link rel="stylesheet" href="./assets/css/tailwind.output.css" />
-
 <body>
 <h4>DoDS Stats</h4>
 <table>
