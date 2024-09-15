@@ -3,7 +3,7 @@
 // vars
 $player_rank = 1;
 
-
+// Functions
 function secondsToHoursMinutes($seconds) { 
       
     // Calculate the hours 
@@ -21,18 +21,20 @@ function secondsToHoursMinutes($seconds) {
     ]; 
 } 
 
-
+// Includes
 include 'database.php';
 
-// Create connection
+// Database Connection
+// Create
 $conn = new mysqli($servername,$username,$password,$database);
 
-// Check connection
+// Check
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 // echo "Connected successfully<br>";
 
+// Get
 $sql = "SELECT name, steamid, score, timeplayed, kills, deaths FROM dodstats ORDER BY score LIMIT 10";
 $result = $conn->query($sql);
 
@@ -54,17 +56,15 @@ $result = $conn->query($sql);
 <tbody>
 
 <?php
-
+// Loop
 if ($result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
     // echo "Rank: " . $player_rank++ . " Name: " . $row["name"]. " - Steamid: " . $row["steamid"]. " - Points " . $row["score"]. "<br>";
 
+    // Convert timeplayed to readable
 $duration = secondsToHoursMinutes($row["timeplayed"]);
-
 $timeplayed_neat = "{$duration['hours']}:{$duration['minutes']}h"; 
-
-
 
 ?>
     <tr>
