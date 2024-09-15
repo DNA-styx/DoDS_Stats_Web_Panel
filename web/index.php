@@ -3,17 +3,10 @@
 
 <?php
 
-
-
 // vars
 $player_rank = 1;
 
-
 include 'database.php';
-
-
-echo "Hello world<br>";
-
 
 // Create connection
 $conn = new mysqli($servername,$username,$password,$database);
