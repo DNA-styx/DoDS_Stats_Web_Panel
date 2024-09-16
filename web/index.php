@@ -34,16 +34,21 @@ if ($conn->connect_error) {
 }
 // echo "Connected successfully<br>";
 
-// Get
-$sql = "SELECT name, steamid, score, timeplayed, kills, deaths FROM dodstats ORDER BY score LIMIT 10";
+// Get 
+$sql = "SELECT name, steamid, score, timeplayed, kills, deaths FROM dodstats WHERE timeplayed > '60' AND score != '0' ORDER BY score DESC LIMIT 10";
 $result = $conn->query($sql);
 
 ?>
 <html>
+<style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
 <title>DoDS Stats</title>
 <body>
 <h4>DoDS Stats</h4>
-<table>
+<table style="width:50%">
 <thead>
     <tr>
         <th>Rank</th>
@@ -63,19 +68,25 @@ if ($result->num_rows > 0) {
     // echo "Rank: " . $player_rank++ . " Name: " . $row["name"]. " - Steamid: " . $row["steamid"]. " - Points " . $row["score"]. "<br>";
 
     // Convert timeplayed to readable
-$duration = secondsToHoursMinutes($row["timeplayed"]);
-$timeplayed_neat = "{$duration['hours']}:{$duration['minutes']}h"; 
+    $duration = secondsToHoursMinutes($row["timeplayed"]);
+    $timeplayed_neat = "{$duration['hours']}:{$duration['minutes']}h"; 
 
+    // Check for nill deaths to avoid divide by zero error
+    if ($row["deaths"] == 0) {
+        $kpd = 'n/a';
+    } else {
+        $kpd = round($row["kills"]/$row["deaths"],1);
+    }
 ?>
     <tr>
         <td><?php echo $player_rank++ ?></td>
         <td><?php echo $row["name"] ?></td>
         <td><?php echo $row["score"] ?></td>
         <td><?php echo $timeplayed_neat ?></td>
-        <td><?php echo (round($row["kills"]/$row["deaths"],1)) ?></td>
+        <td><?php echo $kpd ?></td>
     </tr>
 <?php
-                }
+}
 } else {
   echo "0 results";
 }
