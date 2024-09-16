@@ -34,7 +34,7 @@ if ($conn->connect_error) {
 }
 // echo "Connected successfully<br>";
 
-// Get 
+// Get top 10 players by score as long as they have played for more than 60 seconds and score isn't 0
 $sql = "SELECT name, steamid, score, timeplayed, kills, deaths FROM dodstats WHERE timeplayed > '60' AND score != '0' ORDER BY score DESC LIMIT 10";
 $result = $conn->query($sql);
 
